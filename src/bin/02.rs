@@ -7,9 +7,9 @@ struct Game {
 
 impl Game {
     fn is_possible(&self, max_red: u32, max_green: u32, max_blue: u32) -> bool {
-        self.draws.iter().all(|draw| {
-            draw.red <= max_red && draw.green <= max_green && draw.blue <= max_blue
-        })
+        self.draws
+            .iter()
+            .all(|draw| draw.red <= max_red && draw.green <= max_green && draw.blue <= max_blue)
     }
 
     fn minimum_red(&self) -> u32 {
