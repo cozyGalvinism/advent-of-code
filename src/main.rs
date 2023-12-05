@@ -1,5 +1,6 @@
 use advent_of_code::template::commands::{all, download, read, scaffold, solve};
 use args::{parse, AppArguments};
+use chrono::Local;
 
 mod args {
     use std::process;
@@ -15,6 +16,9 @@ mod args {
         },
         Scaffold {
             day: Day,
+        },
+        Today {
+            day: Option<Day>
         },
         Solve {
             day: Day,
@@ -50,6 +54,9 @@ mod args {
                 release: args.contains("--release"),
                 submit: args.opt_value_from_str("--submit")?,
                 time: args.contains("--time"),
+            },
+            Some("today") => AppArguments::Today { 
+                day: args.free_from_str().ok(),
             },
             Some(x) => {
                 eprintln!("Unknown command: {x}");
@@ -87,6 +94,22 @@ fn main() {
                 time,
                 submit,
             } => solve::handle(day, release, time, submit),
+            AppArguments::Today { mut day } => {
+                if day.is_none() {
+                    day = match Local::now().try_into() {
+                        Ok(day) => Some(day),
+                        Err(e) => {
+                            eprintln!("{e}");
+                            None
+                        }
+                    };
+                }
+                if let Some(day) = day {
+                    scaffold::handle(day);
+                    download::handle(day);
+                    read::handle(day)
+                }
+            }
         },
     };
 }
