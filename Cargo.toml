@@ -15,5 +15,6 @@ test_lib = []
 
 [dependencies]
 chrono = "0.4.31"
+num = "0.4.1"
 pico-args = "0.5.0"
 regex = "1.10.2"
