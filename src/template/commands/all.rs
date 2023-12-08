@@ -1,9 +1,9 @@
 use std::io;
 
 use crate::template::{
-    all_days, Day,
+    all_days,
     readme_benchmarks::{self, Timings},
-    ANSI_BOLD, ANSI_ITALIC, ANSI_RESET,
+    Day, ANSI_BOLD, ANSI_ITALIC, ANSI_RESET,
 };
 
 pub fn handle(is_release: bool, is_timed: bool) {

@@ -2,7 +2,7 @@ use std::error::Error;
 use std::fmt::Display;
 use std::str::FromStr;
 
-use chrono::{DateTime, Local, Datelike};
+use chrono::{DateTime, Datelike, Local};
 
 /// A valid day number of advent (i.e. an integer in range 1 to 25).
 ///

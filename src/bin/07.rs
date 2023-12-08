@@ -130,7 +130,9 @@ impl<'a> Part1Hand<'a> {
     }
 
     fn card_value_at(&self, index: usize) -> usize {
-        CARDS_P1.find(self.cards.chars().nth(index).unwrap()).unwrap()
+        CARDS_P1
+            .find(self.cards.chars().nth(index).unwrap())
+            .unwrap()
     }
 }
 
@@ -144,7 +146,9 @@ impl<'a> Part2Hand<'a> {
     }
 
     fn card_value_at(&self, index: usize) -> usize {
-        CARDS_P2.find(self.cards.chars().nth(index).unwrap()).unwrap()
+        CARDS_P2
+            .find(self.cards.chars().nth(index).unwrap())
+            .unwrap()
     }
 }
 
@@ -163,7 +167,7 @@ impl<'a> Ord for Part1Hand<'a> {
         } else if self_type < other_type {
             return std::cmp::Ordering::Less;
         }
-        
+
         for i in 0_usize..5_usize {
             let self_card = self.card_value_at(i);
             let other_card = other.card_value_at(i);
@@ -193,7 +197,7 @@ impl<'a> Ord for Part2Hand<'a> {
         } else if self_type < other_type {
             return std::cmp::Ordering::Less;
         }
-        
+
         for i in 0_usize..5_usize {
             let self_card = self.card_value_at(i);
             let other_card = other.card_value_at(i);
@@ -215,7 +219,7 @@ pub fn part_one(input: &str) -> Option<u32> {
             let mut cards = line.split_whitespace();
             let hand = cards.next().unwrap();
             let bid = cards.next().unwrap().parse::<u32>().unwrap();
-            
+
             Part1Hand::new(hand, bid)
         })
         .collect::<Vec<_>>();
@@ -236,7 +240,7 @@ pub fn part_two(input: &str) -> Option<u32> {
             let mut cards = line.split_whitespace();
             let hand = cards.next().unwrap();
             let bid = cards.next().unwrap().parse::<u32>().unwrap();
-            
+
             Part2Hand::new(hand, bid)
         })
         .collect::<Vec<_>>();

@@ -19,7 +19,7 @@ mod args {
             download: bool,
         },
         Today {
-            day: Option<Day>
+            day: Option<Day>,
         },
         Solve {
             day: Day,
@@ -57,7 +57,7 @@ mod args {
                 submit: args.opt_value_from_str("--submit")?,
                 time: args.contains("--time"),
             },
-            Some("today") => AppArguments::Today { 
+            Some("today") => AppArguments::Today {
                 day: args.free_from_str().ok(),
             },
             Some(x) => {
@@ -94,7 +94,7 @@ fn main() {
                 if download {
                     download::handle(day);
                 }
-            },
+            }
             AppArguments::Solve {
                 day,
                 release,

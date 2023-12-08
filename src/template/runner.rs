@@ -1,5 +1,5 @@
 /// Encapsulates code that interacts with solution functions.
-use crate::template::{aoc_cli, ANSI_ITALIC, ANSI_RESET, Day};
+use crate::template::{aoc_cli, Day, ANSI_ITALIC, ANSI_RESET};
 use std::fmt::Display;
 use std::hint::black_box;
 use std::io::{stdout, Write};

@@ -49,7 +49,10 @@ impl NodeVisitor {
     }
 
     fn aaa_index(&self) -> usize {
-        self.nodes.iter().position(|node| node.location == "AAA").unwrap()
+        self.nodes
+            .iter()
+            .position(|node| node.location == "AAA")
+            .unwrap()
     }
 
     fn a_indices(&self) -> Vec<usize> {
@@ -65,14 +68,6 @@ impl NodeVisitor {
     fn into_iter_p1(self) -> NodeVisitorIterP1 {
         NodeVisitorIterP1 {
             vec_index: self.aaa_index(),
-            visitor: self,
-            sequence_index: 0,
-        }
-    }
-
-    fn iter_p2(&mut self) -> NodeVisitorIterP2 {
-        NodeVisitorIterP2 {
-            vec_indices: self.a_indices(),
             visitor: self,
             sequence_index: 0,
         }
@@ -94,9 +89,14 @@ impl NodeVisitor {
 
 impl Iterator for NodeVisitorIterP1 {
     type Item = Node;
-    
+
     fn next(&mut self) -> Option<Self::Item> {
-        let current_step = self.visitor.sequence.chars().nth(self.sequence_index).unwrap();
+        let current_step = self
+            .visitor
+            .sequence
+            .chars()
+            .nth(self.sequence_index)
+            .unwrap();
         if self.sequence_index == self.visitor.sequence.len() - 1 {
             self.sequence_index = 0;
         } else {
@@ -110,9 +110,19 @@ impl Iterator for NodeVisitorIterP1 {
         }
 
         if current_step == 'L' {
-            self.vec_index = self.visitor.nodes.iter().position(|node| node.location == current_node.left).unwrap();
+            self.vec_index = self
+                .visitor
+                .nodes
+                .iter()
+                .position(|node| node.location == current_node.left)
+                .unwrap();
         } else {
-            self.vec_index = self.visitor.nodes.iter().position(|node| node.location == current_node.right).unwrap();
+            self.vec_index = self
+                .visitor
+                .nodes
+                .iter()
+                .position(|node| node.location == current_node.right)
+                .unwrap();
         }
 
         self.visitor.nodes.get(self.vec_index).cloned()
@@ -121,16 +131,25 @@ impl Iterator for NodeVisitorIterP1 {
 
 impl<'a> Iterator for NodeVisitorIterP2<'a> {
     type Item = Vec<Node>;
-    
+
     fn next(&mut self) -> Option<Self::Item> {
-        let current_step = self.visitor.sequence.chars().nth(self.sequence_index).unwrap();
+        let current_step = self
+            .visitor
+            .sequence
+            .chars()
+            .nth(self.sequence_index)
+            .unwrap();
         if self.sequence_index == self.visitor.sequence.len() - 1 {
             self.sequence_index = 0;
         } else {
             self.sequence_index += 1;
         }
 
-        if self.vec_indices.iter().all(|&i| self.visitor.nodes.get(i).unwrap().location.ends_with('Z')) {
+        if self
+            .vec_indices
+            .iter()
+            .all(|&i| self.visitor.nodes.get(i).unwrap().location.ends_with('Z'))
+        {
             return None;
         }
 
@@ -139,15 +158,32 @@ impl<'a> Iterator for NodeVisitorIterP2<'a> {
             let current_node = self.visitor.nodes.get(self.vec_indices[i]).unwrap();
 
             if current_step == 'L' {
-                self.vec_indices[i] = self.visitor.nodes.iter().position(|node| node.location == current_node.left).unwrap();
+                self.vec_indices[i] = self
+                    .visitor
+                    .nodes
+                    .iter()
+                    .position(|node| node.location == current_node.left)
+                    .unwrap();
             } else {
-                self.vec_indices[i] = self.visitor.nodes.iter().position(|node| node.location == current_node.right).unwrap();
+                self.vec_indices[i] = self
+                    .visitor
+                    .nodes
+                    .iter()
+                    .position(|node| node.location == current_node.right)
+                    .unwrap();
             }
 
             nodes.push(self.visitor.nodes.get(self.vec_indices[i]).unwrap().clone());
         }
 
-        println!("next seq: {}", self.visitor.sequence.chars().nth(self.sequence_index).unwrap());
+        println!(
+            "next seq: {}",
+            self.visitor
+                .sequence
+                .chars()
+                .nth(self.sequence_index)
+                .unwrap()
+        );
 
         Some(nodes)
     }
@@ -171,9 +207,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     NodeVisitor::from_input(input)
         .into_iter_p1()
         .enumerate()
-        .map(|(i, _)| {
-            i as u32 + 1
-        })
+        .map(|(i, _)| i as u32 + 1)
         .max()
 }
 
@@ -197,15 +231,21 @@ mod tests {
 
     #[test]
     fn test_part_one() {
-        let result = part_one(&advent_of_code::template::read_file_part("examples", DAY, 1));
+        let result = part_one(&advent_of_code::template::read_file_part(
+            "examples", DAY, 1,
+        ));
         assert_eq!(result, Some(2));
-        let result = part_one(&advent_of_code::template::read_file_part("examples", DAY, 2));
+        let result = part_one(&advent_of_code::template::read_file_part(
+            "examples", DAY, 2,
+        ));
         assert_eq!(result, Some(6));
     }
 
     #[test]
     fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file_part("examples", DAY, 3));
+        let result = part_two(&advent_of_code::template::read_file_part(
+            "examples", DAY, 3,
+        ));
         assert_eq!(result, Some(6));
     }
 }

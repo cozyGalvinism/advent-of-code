@@ -27,15 +27,20 @@ struct AlmanacMap {
 
 impl AlmanacMap {
     fn from_map(input: &str) -> Self {
-        let entries = input.lines().map(AlmanacMapEntry::from_map_line).collect::<Vec<AlmanacMapEntry>>();
+        let entries = input
+            .lines()
+            .map(AlmanacMapEntry::from_map_line)
+            .collect::<Vec<AlmanacMapEntry>>();
 
-        Self {
-            entries,
-        }
+        Self { entries }
     }
 
     fn get(&self, value: u64) -> u64 {
-        let Some(entry) = self.entries.iter().find(|entry| entry.source_start <= value && entry.source_start + entry.range > value) else {
+        let Some(entry) = self
+            .entries
+            .iter()
+            .find(|entry| entry.source_start <= value && entry.source_start + entry.range > value)
+        else {
             return value;
         };
         let offset = value - entry.source_start;
@@ -44,7 +49,9 @@ impl AlmanacMap {
     }
 
     fn get_backwards(&self, value: u64) -> u64 {
-        let Some(entry) = self.entries.iter().find(|entry| entry.destination_start <= value && entry.destination_start + entry.range > value) else {
+        let Some(entry) = self.entries.iter().find(|entry| {
+            entry.destination_start <= value && entry.destination_start + entry.range > value
+        }) else {
             return value;
         };
         let offset = value - entry.destination_start;
@@ -56,7 +63,13 @@ impl AlmanacMap {
 pub fn part_one(input: &str) -> Option<u64> {
     let almanac_regex = regex::Regex::new(r"seeds: ([0-9 ]+)\n\nseed-to-soil map:\n([0-9 \n]+)\n\nsoil-to-fertilizer map:\n([0-9 \n]+)\n\nfertilizer-to-water map:\n([0-9 \n]+)\n\nwater-to-light map:\n([0-9 \n]+)\n\nlight-to-temperature map:\n([0-9 \n]+)\n\ntemperature-to-humidity map:\n([0-9 \n]+)\n\nhumidity-to-location map:\n([0-9 \n]+)").unwrap();
     let almanac = almanac_regex.captures(input).unwrap();
-    let seeds = almanac.get(1).unwrap().as_str().split_whitespace().map(|s| s.parse::<u64>().unwrap()).collect::<Vec<u64>>();
+    let seeds = almanac
+        .get(1)
+        .unwrap()
+        .as_str()
+        .split_whitespace()
+        .map(|s| s.parse::<u64>().unwrap())
+        .collect::<Vec<u64>>();
 
     let seed_to_soil_map = AlmanacMap::from_map(almanac.get(2).unwrap().as_str());
     let soil_to_fertilizer_map = AlmanacMap::from_map(almanac.get(3).unwrap().as_str());
@@ -84,7 +97,13 @@ pub fn part_one(input: &str) -> Option<u64> {
 pub fn part_two(input: &str) -> Option<u64> {
     let almanac_regex = regex::Regex::new(r"seeds: ([0-9 ]+)\n\nseed-to-soil map:\n([0-9 \n]+)\n\nsoil-to-fertilizer map:\n([0-9 \n]+)\n\nfertilizer-to-water map:\n([0-9 \n]+)\n\nwater-to-light map:\n([0-9 \n]+)\n\nlight-to-temperature map:\n([0-9 \n]+)\n\ntemperature-to-humidity map:\n([0-9 \n]+)\n\nhumidity-to-location map:\n([0-9 \n]+)").unwrap();
     let almanac = almanac_regex.captures(input).unwrap();
-    let seeds = almanac.get(1).unwrap().as_str().split_whitespace().map(|s| s.parse::<u64>().unwrap()).collect::<Vec<u64>>();
+    let seeds = almanac
+        .get(1)
+        .unwrap()
+        .as_str()
+        .split_whitespace()
+        .map(|s| s.parse::<u64>().unwrap())
+        .collect::<Vec<u64>>();
 
     let mut from_to_seeds = Vec::new();
     for (i, seed) in seeds.iter().enumerate() {
