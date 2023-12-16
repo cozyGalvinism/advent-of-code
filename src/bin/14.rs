@@ -60,9 +60,9 @@ impl Map {
     fn rotate_right(&mut self) {
         let mut new_tiles = vec![vec![Tile::Empty; self.tiles.len()]; self.tiles.len()];
 
-        for y in 0..self.tiles.len() {
-            for x in 0..self.tiles[y].len() {
-                new_tiles[x][self.tiles.len() - 1 - y] = self.tiles[y][x];
+        for (y, rows) in self.tiles.iter().enumerate() {
+            for (x, tile) in rows.iter().enumerate() {
+                new_tiles[x][self.tiles.len() - 1 - y] = *tile;
             }
         }
 
